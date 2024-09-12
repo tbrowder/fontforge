@@ -7,11 +7,30 @@ use PS2OTF;
 
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} <Type 1 font file>
+    Usage: {$*PROGRAM.basename} <Type 1 font file name or basename> | show
 
-    Converts a Type 1 font to an OpenType font
+    Converts a Type 1 font to an OpenType font.
+
+    Entering 'show' will list the test font file basenames.  Any one 
+    of those can be used to demonstrate the conversion process.
+
     HERE
     exit;
+}
+
+for @*ARGS {
+    if $_.IO.r {
+        say "Processing file '$_'...";
+        process-input $_;
+    }
+    when /^ :i s/ {
+        say "Showing included font files...";
+        show;
+    }
+    default {
+        say "Unknown arg '_'. Exiting.";
+        exit;
+    }
 }
 
 my $psfil = @*ARGS.head;
