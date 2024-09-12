@@ -1,11 +1,12 @@
 unit module PS2OTF;
 
 use Inline::Python;
-use File::Find;
+use string:from<Python>;
 
+=finish
+use File::Find;
 sub process-input($arg) is export {
 }
-
 sub show() is export {
     my $pdir = ".".IO.parent(1).dirname; #/fonts;
     my $fdir = "$pdir/fonts";
@@ -13,9 +14,5 @@ sub show() is export {
     for @f {
         say "  $_";
     }
-
-#    say $fdir;
     exit;
 }
-
-

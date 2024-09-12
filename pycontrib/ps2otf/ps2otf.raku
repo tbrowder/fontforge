@@ -3,8 +3,9 @@
 use Inline::Python;
 
 use lib "./lib";
-use PS2OTF;
+#use PS2OTF;
 
+my $py = Inline::Python.new();
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} <Type 1 font file name or basename> | show
