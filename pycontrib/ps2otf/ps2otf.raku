@@ -14,6 +14,12 @@ if not @*ARGS {
     exit;
 }
 
+my $psfil = @*ARGS.head;
+if not $psfil.IO.r {
+    say "ERROR: File '$psfil' cannot be opened.";
+    exit;
+}
+
 
 =finish
 
