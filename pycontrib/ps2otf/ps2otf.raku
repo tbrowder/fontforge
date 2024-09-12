@@ -1,6 +1,7 @@
 #!/usr/bin/env raku
 
 use Inline::Python;
+use File::Find;
 
 use lib "./lib";
 #use PS2OTF;
@@ -19,6 +20,35 @@ if not @*ARGS {
     exit;
 }
 
+sub process-input($arg) is export {
+}
+sub show() is export {
+    my $pdir = ".".IO.parent(1).dirname; #/fonts;
+    my $fdir = "$pdir/fonts";
+    my @f = find :dir($fdir), :type<file>;
+    my %fonts;
+    # collect and organize data
+    for @f {
+         my $file = $_.IO.basename;
+         my $stem = $file;
+         $stem ~~ s/'.' .* $//;
+         unless %fonts{$stem}:exists {
+             %fonts{$stem} = [];
+         }
+         %fonts{$stem}.push: $file;
+    }
+    my @fonts = %fonts.keys.sort;
+    for @fonts {
+        my $stem = $_;
+        say "  Font: $_";
+        say "    files:";
+        my @files = @(%fonts{$_});
+        for @files {
+            say "      $_";
+        }
+    }
+    exit;
+}
 for @*ARGS {
     if $_.IO.r {
         say "Processing file '$_'...";
